@@ -25,6 +25,8 @@ class Solution:
             # get the current digit
             curDigit = digits[index]
 
+            # append all possible characters that the current digit is mapped to and recursively call dfs
+            # on next index
             for c in combinations[curDigit]:
                 dfs(index + 1, currString + c)
 
