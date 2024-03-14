@@ -1,4 +1,5 @@
 class Solution:
+    # helper function to check if input string is a palindrome
     def isPalindrome(self, s):
         left, right = 0, len(s) - 1
 
