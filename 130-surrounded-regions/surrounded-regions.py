@@ -38,14 +38,10 @@ class Solution:
             capture(0, c)
             capture(ROWS - 1, c)
 
-        print(board)
-
         # left and right columns
         for r in range(ROWS):
             capture(r, 0)
             capture(r, COLS - 1)
-
-        print(board)
 
         # step 2: loop over whole board and convert the flippable O's to X's and T's (non-flippable O's) back to O's
         for r in range(ROWS):
