@@ -41,4 +41,6 @@ class Solution:
         # if a cell is in both ocean visited cells then that means that cell can reach both oceans and we
         # should return it as part of our output list
 
+        # '&' operator is a shortcut - returns all elements in the intersection of both sets (in common between 
+        # both sets)
         return pac & atl
