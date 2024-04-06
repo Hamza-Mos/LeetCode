@@ -30,6 +30,8 @@ class UnionFind:
 class Solution:
     def validTree(self, n: int, edges: List[List[int]]) -> bool:
         uf = UnionFind(n)
+
+        # number of connected components (originally set to n because none of the nodes are connected)
         res = n
 
         for n1, n2 in edges:
@@ -37,7 +39,9 @@ class Solution:
             if uf.union(n1, n2):
                 return False
 
+            # decrement number of connected components by 1
             res -= 1
 
+        # in a valid tree, there must only be 1 connected component
         return res == 1
         
