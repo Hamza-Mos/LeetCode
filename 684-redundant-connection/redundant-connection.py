@@ -34,13 +34,8 @@ class Solution:
         n = len(edges)
         uf = UnionFind(n + 1) # because nodes are from 1 to n (not 0 to n - 1)
 
-        redundantEdge = [-1, -1]
-
         for n1, n2 in edges:
             # already connected (returns true) then this means that this connection is redundant
             if uf.union(n1, n2):
-                redundantEdge = [n1, n2]
                 return [n1, n2]
-
-        return redundantEdge
         
