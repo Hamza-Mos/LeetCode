@@ -40,6 +40,7 @@ class Solution:
             # already connected (returns true) then this means that this connection is redundant
             if uf.union(n1, n2):
                 redundantEdge = [n1, n2]
+                return [n1, n2]
 
         return redundantEdge
         
