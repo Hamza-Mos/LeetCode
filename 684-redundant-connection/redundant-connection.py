@@ -36,6 +36,7 @@ class Solution:
 
         for n1, n2 in edges:
             # already connected (returns true) then this means that this connection is redundant
+            # return the redundant connection
             if uf.union(n1, n2):
                 return [n1, n2]
         
