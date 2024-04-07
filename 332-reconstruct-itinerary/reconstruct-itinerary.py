@@ -3,6 +3,7 @@ class Solution:
         res = []
         adjList = collections.defaultdict(list)
 
+        # we will reverse sort the edges because we will be visiting them in reverse order
         tickets.sort(reverse=True)
 
         for src, dest in tickets:
@@ -23,6 +24,7 @@ class Solution:
             # after visiting all destinations, we can finally add origin to our list
             res.append(origin)
 
+        # start from JFK
         dfs("JFK")
 
         return res[::-1]
