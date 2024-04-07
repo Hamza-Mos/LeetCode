@@ -25,19 +25,22 @@ class Solution:
         while len(visited) < N:
             dist, src, dest = heapq.heappop(minHeap)
 
+            # if dest point has been visited then move onto next element in heap
             if dest in visited:
                 continue
 
+            # mark the dest point as visited
             visited.add(dest)
-            
+
             res += dist
 
             # loop over all neighbouring points from destination point
             for nextPoint, nextDist in adjList[dest]:
-                # if point is already visited
+                # if point is already visited then continue to next iteration of loop
                 if nextPoint in visited:
                     continue
 
+                # dest now becomes new src point, and we append the distance to next along with next point to heap
                 heapq.heappush(minHeap, [nextDist, dest, nextPoint])
 
 
