@@ -1,8 +1,6 @@
 class Solution:
     def swimInWater(self, grid: List[List[int]]) -> int:
         ROWS = COLS = len(grid)
-        
-        # can only move right or down
         directions = [[1, 0], [0, 1], [-1, 0], [0, -1]]
 
         # [time, row, col]
