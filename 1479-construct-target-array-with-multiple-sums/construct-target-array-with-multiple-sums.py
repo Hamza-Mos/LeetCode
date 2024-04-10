@@ -1,5 +1,8 @@
 class Solution:
     def isPossible(self, target: List[int]) -> bool:
+        if len(target) == 1:
+            return target == [1]
+
         totalSum = sum(target)
 
         maxHeap = [-t for t in target]
@@ -9,9 +12,6 @@ class Solution:
             print(maxHeap)
             largest = -heapq.heappop(maxHeap)
             rest = totalSum - largest
-
-            if rest == 0:
-                return False
 
             if rest == 1:
                 return True
