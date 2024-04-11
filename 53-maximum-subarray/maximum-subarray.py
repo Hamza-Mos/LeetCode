@@ -3,6 +3,7 @@ class Solution:
         curSum = 0
         res = float('-inf')
 
+        # kadane's algo
         for n in nums:
             if curSum < 0:
                 curSum = 0
