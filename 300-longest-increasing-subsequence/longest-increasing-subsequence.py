@@ -1,12 +1,16 @@
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        # O(N^2 time)
-        dp = [1] * len(nums)
+        # patient sort
+        sequence = [nums[0]]
 
-        for i in range(len(nums)):
-            for j in range(i):
-                if nums[i] > nums[j]:
-                    dp[i] = max(dp[i], dp[j] + 1)
+        for n in nums[1:]:
 
-        print(dp)
-        return max(dp)
+            if n > sequence[-1]:
+                sequence.append(n)
+
+            else:
+                index = bisect_left(sequence, n)
+                sequence[index] = n
+
+        return len(sequence)
+        
