@@ -22,26 +22,23 @@
 
 class NestedIterator:
     def __init__(self, nestedList: [NestedInteger]):
-        self.iterator = 0
-        self.flatList = []
-        self.flattenList(nestedList)
-
-    def flattenList(self, nestedList):
-        for element in nestedList:
-            if element.isInteger():
-                self.flatList.append(element.getInteger())
-
-            else:
-                self.flattenList(element.getList())
+        self.stack = list(reversed(nestedList))
         
     
     def next(self) -> int:
-        self.iterator += 1
-        return self.flatList[self.iterator - 1]
+        self.makeTopOfStackInteger()
+
+        return self.stack.pop().getInteger()
+
+    def makeTopOfStackInteger(self):
+        while self.stack and not self.stack[-1].isInteger():
+            lastList = self.stack.pop()
+            self.stack.extend(reversed(lastList.getList()))
         
     
     def hasNext(self) -> bool:
-        return self.iterator < len(self.flatList)
+        self.makeTopOfStackInteger()
+        return len(self.stack) > 0
          
 
 # Your NestedIterator object will be instantiated and called as such:
