@@ -9,53 +9,40 @@ class Solution:
 
         while curr:
             next = curr.next
+
             curr.next = prev
             prev = curr
             curr = next
 
         return prev
 
+
     def reorderList(self, head: Optional[ListNode]) -> None:
         """
         Do not return anything, modify head in-place instead.
         """
-
         if not head:
-            return
+            return None
 
-        # get head of second half of the linked list
-        slow = fast = head
-        prev = None
+        # reverse second half of list
+        slow, fast = head, head.next
 
         while fast and fast.next:
             fast = fast.next.next
-            prev = slow
             slow = slow.next
 
-        # if the linked list has even number of nodes then slow will be pointing to start of second half (fast is null)
-        # otherwise, slow will be pointing to node before second half (fast is not null), so we move it forward one step
-        if fast:
-            prev = slow
-            slow = slow.next
+        list2 = slow.next
+        slow.next = None
+        list1 = head
 
-        # disconnect the two halves
-        prev.next = None
+        list2 = self.reverseList(list2)
 
-        secondHalf = slow
+        while list1 and list2:
+            next1, next2 = list1.next, list2.next
 
-        # reverse second half of the list
-        secondHalf = self.reverseList(secondHalf)
+            list1.next = list2
+            list2.next = next1
 
-        # reorder both halves
-        firstHalf = head
-
-        while firstHalf and secondHalf:
-            firstHalfNext = firstHalf.next
-            secondHalfNext = secondHalf.next
-
-            firstHalf.next = secondHalf
-            secondHalf.next = firstHalfNext
-
-            firstHalf = firstHalfNext
-            secondHalf = secondHalfNext
+            list1 = next1
+            list2 = next2
         
