@@ -1,7 +1,8 @@
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         ROWS, COLS = len(matrix), len(matrix[0])
-        # do binary search on diagonals
+        # do binary search on diagonals (removes repeated work of visiting cells multiple times if 
+        # we did binary search on all possible rows and cols)
 
         def binarySearch(start, vertical):
             low = start
