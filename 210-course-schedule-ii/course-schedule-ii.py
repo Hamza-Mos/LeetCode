@@ -33,8 +33,8 @@ class Solution:
 
             return False
 
-        for crs in adjList:
-            if dfs(crs):
+        for i in range(numCourses):
+            if dfs(i):
                 return []
 
         return res if len(res) == numCourses else []
