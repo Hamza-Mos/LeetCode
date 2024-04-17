@@ -22,11 +22,12 @@ class Solution:
 
             for i in range(index, len(s)):
 
+                # if current substring is a palindrome then we can partition at current index
                 if self.isPalindrome(s[index : i + 1]):
-                    
+
                     currPartition.append(s[index : i + 1])
                     backtrack(i + 1)
-                    currPartition.pop()
+                    currPartition.pop() # backtrack
 
         backtrack(0)
         return res
