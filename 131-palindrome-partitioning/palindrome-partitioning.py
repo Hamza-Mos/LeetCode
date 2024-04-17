@@ -1,14 +1,13 @@
 class Solution:
-    # helper function to check if input string is a palindrome
     def isPalindrome(self, s):
-        left, right = 0, len(s) - 1
+        l, r = 0, len(s) - 1
 
-        while left < right:
-            if s[left] != s[right]:
+        while l < r:
+            if s[l] != s[r]:
                 return False
-
-            left += 1
-            right -= 1
+            
+            l += 1
+            r -= 1
 
         return True
 
@@ -16,24 +15,16 @@ class Solution:
         res = []
         currPartition = []
 
-        def dfs(i):
-            # we have reached the end of the current string
-            if i == len(s):
-                # append a copy of the current partition to the result list
+        def backtrack(index):
+            if index == len(s):
                 res.append(currPartition[:])
                 return
 
-            for j in range(i, len(s)):
-                # current substring is a palindrome
-                if self.isPalindrome(s[i:j + 1]):
-                    # partition the string at index j + 1
-                    currPartition.append(s[i: j + 1])
-                    dfs(j + 1)
-
-                    # backtrack
+            for i in range(index, len(s)):
+                if self.isPalindrome(s[index : i + 1]):
+                    currPartition.append(s[index : i + 1])
+                    backtrack(i + 1)
                     currPartition.pop()
 
-        dfs(0)
-
+        backtrack(0)
         return res
-        
