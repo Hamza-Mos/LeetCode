@@ -21,7 +21,9 @@ class Solution:
                 return
 
             for i in range(index, len(s)):
+
                 if self.isPalindrome(s[index : i + 1]):
+                    
                     currPartition.append(s[index : i + 1])
                     backtrack(i + 1)
                     currPartition.pop()
