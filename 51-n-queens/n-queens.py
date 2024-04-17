@@ -1,54 +1,41 @@
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
-        # create an empty board
-        board = [["."] * n for i in range(n)]
+        colSet = set() # keeps track of used columns
+        diagSet = set() # keeps track of used positive diagonals (remember (r + c) stays constant)
+        reverseDiagSet = set() # keeps track of used anti diagonals (remember (r - c) stays constant)
 
+        board = [ ["."] * n for i in range(n) ]
         res = []
 
-        cols = set()
-        posDiag = set()
-        negDiag = set()
+        def backtrack(currRow):
+            if currRow == n:
+                currBoard = []
+                for i in range(n):
+                    currRow = "".join(board[i].copy())
+                    currBoard.append(currRow)
 
-        def dfs(row):
-            # we have reached the end of the board successfully (meaning that we have completed one solution)
-            if row == n:
-                # generate a copy of the board and add it to result list
-                copy = ["".join(board[row]) for row in range(n)]
-                res.append(copy)
+                res.append(currBoard)
+                return
 
-            # try every possible column position in the current row
             for col in range(n):
-                # row + col is always a constant in positive diag because row decreases as you go diagonally
-                # while col number increases 
-                curPosDiag = row + col
-
-                # row - col is always a constant in negative diag because both row and col always increase by 1
-                # each time
-                curNegDiag = row - col
-
-                # invalid position
-                if col in cols or curPosDiag in posDiag or curNegDiag in negDiag:
+                if col in colSet or (currRow + col) in diagSet or (currRow - col) in reverseDiagSet:
                     continue
 
-                # valid position so mark it as taken in sets
-                cols.add(col)
-                posDiag.add(curPosDiag)
-                negDiag.add(curNegDiag)
+                colSet.add(col)
+                diagSet.add(currRow + col)
+                reverseDiagSet.add(currRow - col)
 
-                board[row][col] = "Q"
+                board[currRow][col] = "Q"
 
-                # call dfs on next row
-                dfs(row + 1)
+                backtrack(currRow + 1)
 
-                # backtrack (unvisit the cell)
-                cols.remove(col)
-                posDiag.remove(curPosDiag)
-                negDiag.remove(curNegDiag)
+                board[currRow][col] = "."
 
-                board[row][col] = "."
-                
-        
-        dfs(0)
+                # backtrack
+                colSet.remove(col)
+                diagSet.remove(currRow + col)
+                reverseDiagSet.remove(currRow - col)
+
+        backtrack(0)
 
         return res
-        
