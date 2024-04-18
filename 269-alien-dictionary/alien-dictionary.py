@@ -34,9 +34,8 @@ class Solution:
                 return False
 
             path.add(letter)
-            visited.add(letter)
 
-            for c in adjList[letter].copy():
+            for c in adjList[letter]:
                 if dfs(c):
                     return True
 
@@ -44,10 +43,11 @@ class Solution:
             res.append(letter)
 
             path.remove(letter)
+            visited.add(letter)
 
             return False
 
-        for char in adjList.keys():
+        for char in adjList:
             if dfs(char):
                 return ""
 
