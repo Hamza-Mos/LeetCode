@@ -5,10 +5,10 @@ class Solution:
             return -1
 
         total = 0
-        start = 0
+        start = 0 # we want to start at an index where the diff between gas and cost becomes positive
 
         for index in range(len(gas)):
-            total += gas[index] - cost[index]
+            total += gas[index] - cost[index] 
 
             if total < 0:
                 total = 0
