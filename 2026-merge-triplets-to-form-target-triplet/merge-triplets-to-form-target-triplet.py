@@ -13,7 +13,9 @@ class Solution:
             for index, val in enumerate(t):
                 # found a good value
                 if val == target[index]:
+                    # we include index because it is possible that multiple triplets have 
+                    # the same value at the same index so we should count them as 1 good position
                     goodPositions.add((index, val))
 
-        return len(goodPositions) == 3
+        return len(goodPositions) == 3 # found all 3 positions that match target
         
