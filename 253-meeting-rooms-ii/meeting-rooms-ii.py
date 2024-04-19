@@ -11,8 +11,6 @@ class Solution:
         numMeetings = 0
         maxMeetings = 0
 
-        print(times)
-
         for time, addition in times:
             numMeetings += addition
             maxMeetings = max(numMeetings, maxMeetings)
