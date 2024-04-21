@@ -1,28 +1,43 @@
 class RandomizedSet:
+
     def __init__(self):
-        self.nums = []
-        self.numsToIndex = {}
+        self.list = []
+        self.valToIndex = {}
 
-    def insert(self, value):
-        if value in self.numsToIndex:
+    def insert(self, val: int) -> bool:
+        if val in self.valToIndex:
             return False
-        
-        self.nums.append(value)
-        self.numsToIndex[value] = len(self.nums) - 1
+
+        self.valToIndex[val] = len(self.list)
+        self.list.append(val)
 
         return True
 
-    def remove(self, value):
-        if value not in self.numsToIndex:
+    def remove(self, val: int) -> bool:
+        if val not in self.valToIndex:
             return False
-        
-        indexToRemove, lastNum = self.numsToIndex[value], self.nums[-1]
-        self.nums[indexToRemove], self.numsToIndex[lastNum] = lastNum, indexToRemove
 
-        del self.numsToIndex[value]
-        self.nums.pop()
+        lastVal, indexOfItemToRemove = self.list[-1], self.valToIndex[val]
+
+        # update list and dict
+        self.list[indexOfItemToRemove] = lastVal
+        self.valToIndex[lastVal] = indexOfItemToRemove
+        
+        # remove val from list and dict
+        self.list.pop()
+        del self.valToIndex[val]
 
         return True
 
-    def getRandom(self):
-        return choice(self.nums)
+        
+
+    def getRandom(self) -> int:
+        return random.choice(self.list)
+        
+
+
+# Your RandomizedSet object will be instantiated and called as such:
+# obj = RandomizedSet()
+# param_1 = obj.insert(val)
+# param_2 = obj.remove(val)
+# param_3 = obj.getRandom()
