@@ -16,16 +16,12 @@ class Solution:
 
         # Dictionary to store the result
         res = [""] * len(arr)
-        print(trie)
         
         # Check each entry in the sorted trie to find the first unique substring for each name
         for substring, indices in trie.items():
             if len(indices) == 1:  # Only one index means it's unique
                 name_index = indices.pop()
                 
-                # if res[name_index] != "":
-                #     continue
-
                 if res[name_index] == "":
                     res[name_index] = substring
                     continue
