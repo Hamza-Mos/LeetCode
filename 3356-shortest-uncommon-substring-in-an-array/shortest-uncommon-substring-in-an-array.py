@@ -10,24 +10,31 @@ class Solution:
                 for length in range(1, len(name) - start + 1):
                     substring = name[start:start+length]
                     trie[substring].add(idx)
-
-        print(trie)
         
         # To emulate TreeMap's ordering by length and then lexicographically
-        sorted_trie = OrderedDict(sorted(trie.items(), key=lambda x: (len(x[0]), x[0])))
+        # sorted_trie = OrderedDict(sorted(trie.items(), key=lambda x: (len(x[0]), x[0])))
 
         # Dictionary to store the result
         res = [""] * len(arr)
+        print(trie)
         
         # Check each entry in the sorted trie to find the first unique substring for each name
-        for substring, indices in sorted_trie.items():
+        for substring, indices in trie.items():
             if len(indices) == 1:  # Only one index means it's unique
                 name_index = indices.pop()
                 
-                if res[name_index] != "":
+                # if res[name_index] != "":
+                #     continue
+
+                if res[name_index] == "":
+                    res[name_index] = substring
                     continue
         
-                res[name_index] = substring
+                elif len(substring) == len(res[name_index]) and substring < res[name_index]:
+                    res[name_index] = substring
+
+                elif len(substring) < len(res[name_index]):
+                    res[name_index] = substring
 
         return res
 
