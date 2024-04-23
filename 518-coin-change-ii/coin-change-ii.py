@@ -16,7 +16,8 @@ class Solution:
         for currCoin in range(numCoins):
             currRow = [0] * (amount + 1)
             for currAmount in range(amount + 1):
-                # to get total number of 
+                # to get total number of combinations for each amount, we would have to add up
+                # the number of ways to get to current amount from previous coin + current coin
                 currRow[currAmount] = prevRow[currAmount] 
 
                 if currAmount - coins[currCoin] >= 0:
