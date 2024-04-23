@@ -11,17 +11,16 @@ class Solution:
 
         numCoins = len(coins)
         prevRow = [0] * (amount + 1)
-        prevRow[0] = 1
+        prevRow[0] = 1 # 1 way to reach an amount of 0 with any coin
 
         for currCoin in range(numCoins):
             currRow = [0] * (amount + 1)
             for currAmount in range(amount + 1):
-                currRow[currAmount] = prevRow[currAmount]
+                # to get total number of 
+                currRow[currAmount] = prevRow[currAmount] 
 
                 if currAmount - coins[currCoin] >= 0:
                     currRow[currAmount] += currRow[currAmount - coins[currCoin]]
-
-            print(currRow)
 
             prevRow = currRow
 
