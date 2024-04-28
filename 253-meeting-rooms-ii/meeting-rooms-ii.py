@@ -3,17 +3,16 @@ class Solution:
         times = []
 
         for start, end in intervals:
-            times.append([start, 1]) 
-            times.append([end, -1])
+            times.append((start, 1))
+            times.append((end, -1))
 
-        # sort by times
         times.sort()
-        numMeetings = 0
-        maxMeetings = 0
+
+        currMeetings = maxMeetings = 0
 
         for time, addition in times:
-            numMeetings += addition
-            maxMeetings = max(numMeetings, maxMeetings)
+            currMeetings += addition
+
+            maxMeetings = max(currMeetings, maxMeetings)
 
         return maxMeetings
-        
