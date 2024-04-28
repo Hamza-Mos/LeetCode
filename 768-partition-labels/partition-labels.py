@@ -1,25 +1,17 @@
 class Solution:
     def partitionLabels(self, s: str) -> List[int]:
-        lastIndexMap = {}
+        charLastIndex = { char : index for index, char in enumerate(s) }
 
-        # map each character to its last index
-        for index, char in enumerate(s):
-            lastIndexMap[char] = index
-
-        endOfCurrentPartition = 0
-        startOfCurrentPartition = 0
         res = []
+        start = 0
+        end = 0
 
-        # partition string
-        for index, char in enumerate(s):
-            # endOfCurrentPartition should always point to the last index of any character in the current
-            # partition
-            endOfCurrentPartition = max(lastIndexMap[char], endOfCurrentPartition)
+        for index in range(len(s)):
+            char = s[index]
+            end = max(end, charLastIndex[char])
 
-            # we have reached the end of the current partition so append length to the result list
-            if index == endOfCurrentPartition:
-                res.append(endOfCurrentPartition - startOfCurrentPartition + 1)
-                startOfCurrentPartition = index + 1
+            if index == end:
+                res.append(end - start + 1)
+                start = end + 1
 
         return res
-        
