@@ -1,6 +1,6 @@
 class Solution:
     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
-        # get rid of triplets that have any element greater than the greatest element in target
+        # get rid of triplets that have any element greater than the corresponding element in target
         # keep track of good elements that match up with elements in target in a set
         # if size of set is 3 then we have all elements needed to get to target
 
@@ -12,9 +12,6 @@ class Solution:
 
             for index, num in enumerate(triplet):
                 if num == target[index]:
-                    print([index, num])
                     goodElements.add((index, num))
-
-        print(goodElements)
 
         return len(goodElements) == 3
