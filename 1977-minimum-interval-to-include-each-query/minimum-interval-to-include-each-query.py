@@ -38,6 +38,7 @@ class Solution:
 
             queriesToSizes[query] = minHeap[0][0] if minHeap else -1
 
+        # output list
         res = [ queriesToSizes[query] for query in queries ]
         
         return res
