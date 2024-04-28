@@ -1,15 +1,21 @@
 class Solution:
     def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
-        intervals.sort() # sort by start time
+        # if there is any overlap, return False
+        # else, return True
+        if not intervals:
+            return True
 
-        prevEnd = -1
+        intervals.sort()
 
-        for start, end in intervals:
-            # overlap (current meeting starts before the previous one ended)
-            if start < prevEnd:
+        lastEnd = intervals[0][1]
+
+        for index in range(1, len(intervals)):
+            start, end = intervals[index]
+
+            if lastEnd > start:
                 return False
 
-            prevEnd = end
+            lastEnd = end
 
         return True
         
