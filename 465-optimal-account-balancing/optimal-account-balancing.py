@@ -30,7 +30,7 @@ class Solution:
                     # transfer net balance
                     balanceList[nextPerson] += balanceList[currPerson] 
 
-                    # recursively call function on next person
+                    # recursively call function on next person (currPerson + 1)
                     minTransactions = min(minTransactions, 1 + backtrack(currPerson + 1))
 
                     # backtrack - remove net balance from next person to explore other people to transfer to
