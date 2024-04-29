@@ -18,6 +18,7 @@ class DetectSquares:
         for x, y in self.points:
             # check if the current point is diagonal with input point
             # then check if the rest of the corners of the square (two other points) make a square
+            # edge case: a point could be the same as input point (invalid)
             if abs(x - pointX) == abs(y - pointY) and x != pointX and y != pointY:
                 res += self.pointsCount[(x, pointY)] * self.pointsCount[(pointX, y)]
 
