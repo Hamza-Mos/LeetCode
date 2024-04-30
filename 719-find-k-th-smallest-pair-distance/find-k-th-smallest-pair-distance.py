@@ -13,6 +13,8 @@ class Solution:
     def position(self, nums, m):
         ans = 0
         for i in range(len(nums) - 1):
+            # finds first index where nums[index] > nums[i] + m
+            # more formally: returns index to insert nums[i] + m into list so that it remains sorted
             index = bisect.bisect_right(nums, nums[i] + m)
             ans += (index - 1 - i)
         return ans
