@@ -47,23 +47,26 @@ class Solution:
         nums.sort()
 
         # range of values for possible differences: 0 to (max - min)
-        l, r = 0, nums[-1] - nums[0]
+        left, right = 0, nums[-1] - nums[0]
 
         # binary search
-        while l < r:
-            m = (l + r) // 2
+        while left < right:
+            mid = (left + right) // 2
 
-            if self.position(nums, m) >= k:
-                r = m
+            numDifferences = self.position(nums, mid)
+
+            # print(mid)
+            # if numDifferences == k:
+            #     return mid
+
+            # make difference lower since we want to find the upper bound where numDifferences == k
+            if numDifferences >= k:
+                right = mid
+
             else:
-                l = m + 1
+                left = mid + 1
 
-        return l
-        # if self.position(nums, l) >= k:
-        #     return l
-        # elif self.position(nums, r) >= k:
-        #     return r
-        return 0
+        return left
 
 """
 Complexity:
