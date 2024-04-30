@@ -55,17 +55,23 @@ class Solution:
 
             numDifferences = self.position(nums, mid)
 
-            # print(mid)
-            # if numDifferences == k:
-            #     return mid
-
-            # make difference lower since we want to find the upper bound where numDifferences == k
+            # If `mid` produced `k` or more results we know it's the upper bound
             if numDifferences >= k:
+                # We don't set to `mid - 1` because we found a number of distances
+                # bigger than *or equal* to `k`. If this `mid` ends up being
+                # actually equal to `k` then it's a correct guess, so let's leave it within
+                # the guess space.
                 right = mid
 
+            # If `mid` did not produce enouh results, let's increase the guess
+            # space and try a higher number.
             else:
                 left = mid + 1
 
+        # `left` ends up being an actual distance in the input, because
+        # the binary search mechanism waits until the exact left/right combo where
+        # 2nd to last `mid` did not produce enough results (k or more), but
+        # the last `mid` did.
         return left
 
 """
