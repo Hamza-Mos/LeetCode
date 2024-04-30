@@ -9,15 +9,15 @@ class Solution:
         dp = [0] * COLS
         dp[-1] = 1 # 1 way to reach target cell if starting at target cell
 
-        for i in reversed(range(ROWS)):
-            for j in reversed(range(COLS)):
+        for row in reversed(range(ROWS)):
+            for col in reversed(range(COLS)):
                 # obstacle
-                if obstacleGrid[i][j]:
-                    dp[j] = 0
+                if obstacleGrid[row][col]:
+                    dp[col] = 0
                     continue
 
-                if j + 1 < COLS:
-                    dp[j] += dp[j + 1]
+                if col + 1 < COLS:
+                    dp[col] += dp[col + 1]
 
         return dp[0]
                 
