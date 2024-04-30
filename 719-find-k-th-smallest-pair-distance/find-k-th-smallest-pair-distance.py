@@ -39,24 +39,30 @@ class Solution:
 
     -   Finding the Exact Distance: The loop exits when the search range is minimized, and the smallest distance 
         that meets the condition is found.
-        
+
     """
 
     def smallestDistancePair(self, nums, k):
-        # Sort the Array: Begin by sorting the array to ensure that all pairs can 
-        # be considered in non-decreasing order of distances.
+        # Sort the Array
         nums.sort()
+
+        # range of values for possible differences: 0 to (max - min)
         l, r = 0, nums[-1] - nums[0]
-        while r - l > 1:
-            m = l + (r - l) // 2
+
+        # binary search
+        while l < r:
+            m = (l + r) // 2
+
             if self.position(nums, m) >= k:
                 r = m
             else:
-                l = m
-        if self.position(nums, l) >= k:
-            return l
-        elif self.position(nums, r) >= k:
-            return r
+                l = m + 1
+
+        return l
+        # if self.position(nums, l) >= k:
+        #     return l
+        # elif self.position(nums, r) >= k:
+        #     return r
         return 0
 
 """
