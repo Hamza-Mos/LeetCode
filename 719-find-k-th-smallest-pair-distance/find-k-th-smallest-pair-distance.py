@@ -2,7 +2,7 @@ class Solution:
     def position(self, nums, m):
         ans = 0
         for i in range(len(nums) - 1):
-            index = bisect.bisect_left(nums, nums[i] + m + 1)
+            index = bisect.bisect_right(nums, nums[i] + m)
             ans += (index - 1 - i)
         return ans
 
