@@ -2,6 +2,7 @@ class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
         numNodes = len(graph)
         partitions = [0] * numNodes
+        # partition[i] can either be 1 or -1 once node i is visited (value indicates set that node is part of)
 
         # returns True if current graph/disjoint set is bipartite
         # False otherwise
