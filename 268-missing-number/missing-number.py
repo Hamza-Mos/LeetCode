@@ -1,11 +1,9 @@
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
-        numberSum = 0
-        indexSum = len(nums)
+        missingNum = len(nums)
 
         for i in range(len(nums)):
-            indexSum += i
-            numberSum += nums[i]
+            missingNum = missingNum ^ (i ^ nums[i])
 
-        return indexSum - numberSum
+        return missingNum
         
