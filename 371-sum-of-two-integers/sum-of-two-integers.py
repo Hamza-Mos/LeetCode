@@ -11,6 +11,9 @@ class Solution:
 
             b = carry & bitMask 
         
+        # check if a is negative (python uses infinite leading 1's for negative numbers)
+        # bitMask // 2 is 0b0111111111111111111111111111111
+        # a number is only negative if the 32nd bit is a 1
         if a > bitMask // 2:
             return ~(a ^ bitMask)
 
