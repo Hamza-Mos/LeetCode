@@ -14,7 +14,7 @@ class Solution:
                 return 0
 
             # reversed integer will exceed min limit
-            if (res < MIN // 10 or (res == MIN // 10 and digit < MIN % 10)):
+            if (res < MIN // 10 or (res == MIN // 10 and digit <= MIN % 10)):
                 return 0
 
             res = res * 10 + digit
