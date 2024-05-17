@@ -9,6 +9,8 @@ class Solution:
         if not root:
             return True
 
+        # preorder traversal
+
         # leaf node
         if root.val <= 1:
             return True if root.val == 1 else False
