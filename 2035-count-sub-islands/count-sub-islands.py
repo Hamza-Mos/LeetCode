@@ -6,20 +6,21 @@ class Solution:
         def dfs(row, col):
             if row < 0 or row >= ROWS or col < 0 or col >= COLS or grid2[row][col] == 0:
                 return True
-            
+
             # mark as visited
             grid2[row][col] = 0
-
-            # Check if the corresponding cell in grid1 is water
-            is_sub_island = grid1[row][col] == 1
+            
+            # even if current cell in grid1 is water, we should still visit the rest of the island in grid2
+            # to mark it as visited
+            res = grid1[row][col] == 1
 
             # Perform DFS in all four directions
-            is_sub_island &= dfs(row + 1, col)
-            is_sub_island &= dfs(row - 1, col)
-            is_sub_island &= dfs(row, col + 1)
-            is_sub_island &= dfs(row, col - 1)
+            res &= dfs(row + 1, col)
+            res &= dfs(row - 1, col)
+            res &= dfs(row, col + 1)
+            res &= dfs(row, col - 1)
 
-            return is_sub_island
+            return res
 
         for i in range(ROWS):
             for j in range(COLS):
