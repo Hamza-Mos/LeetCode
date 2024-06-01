@@ -1,20 +1,16 @@
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
-        positionAndSpeed = [[pos, sp] for pos, sp in zip(position, speed)]
+        # reverse sorted positions and speeds
+        posAndSpeed = sorted(zip(position, speed), reverse=True)
 
-        # we want position to be sorted in reverse (we want to process)
-        positionAndSpeed.sort(reverse=True)
-        
-        numFleets = 0
-        prevTime = 0
+        time = float('-inf')
         fleets = 0
 
-        for pos, sp in positionAndSpeed:
-            # calculate time to reach target
-            time = (target - pos) / sp
-
-            if time > prevTime:
+        for pos, sp in posAndSpeed:
+            newTime = (target - pos) / sp
+            if newTime > time:
                 fleets += 1
-                prevTime = time
+                time = newTime
 
         return fleets
+        
