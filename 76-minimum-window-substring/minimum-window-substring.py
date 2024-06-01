@@ -3,34 +3,41 @@ class Solution:
         if len(s) < len(t):
             return ""
 
-        window = ""
+        resLen = float('inf')
+        res = ""
 
-        freqForT = defaultdict(int)
-        freqForS = defaultdict(int)
-
-        for c in t:
-            freqForT[c] += 1
+        tFreq = Counter(t)
 
         left = 0
-        need = len(freqForT)
-        for right in range(len(s)):
-            if s[right] in freqForT:
-                freqForS[s[right]] += 1
+        need = len(tFreq)
 
-                if freqForS[s[right]] == freqForT[s[right]]:
+        sFreq = defaultdict(int)
+
+        for right in range(len(s)):
+            currChar = s[right]
+
+            if currChar in tFreq:
+                sFreq[currChar] += 1
+
+                if sFreq[currChar] == tFreq[currChar]:
                     need -= 1
 
             while need == 0:
-                if window == "" or len(window) > right - left + 1:
-                    window = s[left:right + 1]
+                if right - left + 1 < resLen:
+                    res = s[left:right + 1]
+                    resLen = right - left + 1
 
-                charToRemove = s[left]
+                if s[left] in tFreq:
+                    sFreq[s[left]] -= 1
+
+                    if sFreq[s[left]] < tFreq[s[left]]:
+                        need += 1
+
                 left += 1
 
-                if charToRemove in freqForT:
-                    freqForS[charToRemove] -= 1
+        return res
 
-                    if freqForS[charToRemove] < freqForT[charToRemove]:
-                        need += 1
             
-        return window
+
+            
+        
