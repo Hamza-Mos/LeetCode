@@ -1,53 +1,48 @@
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-        if len(s2) < len(s1):
+        if len(s1) > len(s2):
             return False
 
-        freq1, freq2 = [0] * 26, [0] * 26
+        freq1 = [0] * 26
+        freq2 = [0] * 26
 
         for i in range(len(s1)):
-            char1 = ord(s1[i]) - ord('a')
-            char2 = ord(s2[i]) - ord('a')
-
-            freq1[char1] += 1
-            freq2[char2] += 1
+            freq1[ord(s1[i]) - ord('a')] += 1
+            freq2[ord(s2[i]) - ord('a')] += 1
 
         matches = 0
 
         for i in range(26):
-            if freq1[i] == freq2[i]:
-                matches += 1
+            matches += freq1[i] == freq2[i]
 
         left = 0
-
         for right in range(len(s1), len(s2)):
             if matches == 26:
-                break
+                print([left, right])
+                return True
 
-            newChar = ord(s2[right]) - ord('a')
-            oldChar = ord(s2[left]) - ord('a')
+            # remove left character
 
-            # case 1: we were at correct frequencies for newChar before but no longer the case
-            if freq1[newChar] == freq2[newChar]:
+            leftChar = ord(s2[left]) - ord('a')
+
+            if freq1[leftChar] == freq2[leftChar]:
                 matches -= 1
 
-            # case 2: we will now be at correct frequencies
-            if freq1[newChar] == freq2[newChar] + 1:
+            if freq1[leftChar] == freq2[leftChar] - 1:
                 matches += 1
 
-            freq2[newChar] += 1
-
-            # case 3: we were at correct frequences for oldChar before but no longer the case
-            if freq1[oldChar] == freq2[oldChar]:
-                matches -= 1
-
-            # case 4: we will now be at correct frequencies
-            if freq1[oldChar] == freq2[oldChar] - 1:
-                matches += 1
-
-            freq2[oldChar] -= 1
-
+            freq2[leftChar] -= 1
             left += 1
+
+            rightChar = ord(s2[right]) - ord('a')
+
+            if freq1[rightChar] == freq2[rightChar]:
+                matches -= 1
+
+            if freq1[rightChar] == freq2[rightChar] + 1:
+                matches += 1
+
+            freq2[rightChar] += 1
 
         return matches == 26
         
