@@ -5,8 +5,8 @@ class Solution:
 
         for i in range(1, len(nums)):
             res[i] *= prefix
-
             prefix *= nums[i]
+
 
         suffix = nums[-1]
 
