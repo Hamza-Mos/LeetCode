@@ -1,19 +1,19 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        freqMap = defaultdict(int)
-        left = 0
-        res = 0
+        freq = defaultdict(int)
         maxFreq = 0
+        res = 0
+        left = 0
 
         for right in range(len(s)):
             char = s[right]
-            freqMap[char] += 1
-            maxFreq = max(freqMap[char], maxFreq)
+            freq[s[right]] += 1
+            maxFreq = max(maxFreq, freq[s[right]])
 
             while (right - left + 1) - maxFreq > k:
-                freqMap[s[left]] -= 1
+                freq[s[left]] -= 1
                 left += 1
 
-            res = max(right - left + 1, res)
+            res = max(res, right - left + 1)
 
         return res
