@@ -2,29 +2,19 @@ class Solution:
     def trap(self, height: List[int]) -> int:
         res = 0
 
-        maxLeft = maxRight = 0
-        left, right = 0, len(height) - 1
+        left = leftMax = rightMax = 0
+        right = len(height) - 1
 
         while left < right:
-            maxLeft = max(maxLeft, height[left])
-            maxRight = max(maxRight, height[right])
+            leftMax = max(height[left], leftMax)
+            rightMax = max(height[right], rightMax)
 
             if height[left] < height[right]:
-
+                res += max(0, min(leftMax, rightMax) - height[left])
                 left += 1
 
-                currHeightGains = min(maxLeft, maxRight) - height[left]
-
-                res = res + currHeightGains if currHeightGains > 0 else res
-
             else:
-
+                res += max(0, min(leftMax, rightMax) - height[right])
                 right -= 1
-
-                currHeightGains = min(maxLeft, maxRight) - height[right]
-
-                res = res + currHeightGains if currHeightGains > 0 else res
-
+            
         return res
-
-        
