@@ -1,35 +1,31 @@
 class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-        # sort to easily remove duplicates
-        candidates.sort()
-
         res = []
         currSet = []
+        candidates.sort()
 
-        def backtrack(index, currSum):
+        def dfs(index, currSum):
             if currSum == target:
-                res.append(currSet[:])
-                return
-
-            if currSum > target:
+                res.append(currSet[::])
                 return
 
             if index == len(candidates):
                 return
 
-            # add candidates[index] to currSet and move to next number
-            currSet.append(candidates[index])
-            backtrack(index + 1, candidates[index] + currSum)
+            if currSum > target:
+                return
 
-            # do not add candidates[index] to currSet
+            currSet.append(candidates[index])
+            dfs(index + 1, currSum + candidates[index])
+
             currSet.pop()
 
-            # move index to last occurrence of candidates[index]
             while index + 1 < len(candidates) and candidates[index] == candidates[index + 1]:
                 index += 1
 
-            backtrack(index + 1, currSum)
+            dfs(index + 1, currSum)
 
-        backtrack(0, 0)
+        dfs(0, 0)
+
         return res
         
