@@ -6,17 +6,19 @@ class Solution:
 
         while left <= right:
             mid = (left + right) // 2
+            res = min(nums[mid], res)
 
-            res = min(res, nums[mid])
+            # find out which partition we are in
 
-            # find current partition where mid is
-
-            # we are in left partition - need to move right 
+            # left sorted partition
             if nums[mid] > nums[right]:
+                # move left towards the start of the right sorted partition
                 left = mid + 1
 
-            # we are in right partition - need to move left
+            # right sorted partition
             else:
+                # move left towards the start of the left sorted partition
                 right = mid - 1
 
         return res
+        
