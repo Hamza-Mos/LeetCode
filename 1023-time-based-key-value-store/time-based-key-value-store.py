@@ -1,34 +1,29 @@
 class TimeMap:
 
     def __init__(self):
-        self.cache = collections.defaultdict(list)
-        
+        self.map = defaultdict(list)
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        self.cache[key].append([value, timestamp])
-        
+        self.map[key].append([timestamp, value])
 
     def get(self, key: str, timestamp: int) -> str:
-        value = ""
+        output = ""
+        values = self.map[key]
 
-        # do binary search and find the nearest timestamp
-        low, high = 0, len(self.cache[key]) - 1
+        low, high = 0, len(values) - 1
 
         while low <= high:
             mid = (low + high) // 2
+            time, value = values[mid]
 
-            val, time = self.cache[key][mid]
-
-            if time <= timestamp:
-                value = val
-                low = mid + 1
-
-            else:
+            if time > timestamp:
                 high = mid - 1
 
-        return value
-        
+            else:
+                output = value
+                low = mid + 1
 
+        return output
 
 # Your TimeMap object will be instantiated and called as such:
 # obj = TimeMap()
