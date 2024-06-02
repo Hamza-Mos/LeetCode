@@ -1,47 +1,48 @@
 class Twitter:
 
     def __init__(self):
-        self.time = 0 # keeps track of post times for tweets
-        self.userMap = collections.defaultdict(set) # keeps track of followees for each user
+        self.posts = defaultdict(list)
+        self.followerMap = defaultdict(set)
+        self.count = 0
         
-        self.postMap = collections.defaultdict(list) # maps a user id to their posts
 
     def postTweet(self, userId: int, tweetId: int) -> None:
-        self.postMap[userId].append([tweetId, self.time])
-        self.time -= 1
+        self.posts[userId].append([self.count, tweetId])
+        self.count -= 1
 
     def getNewsFeed(self, userId: int) -> List[int]:
-        posts = []
+        heap = []
+        self.followerMap[userId].add(userId)
 
-        self.userMap[userId].add(userId) # user should be able to see their own posts (their own follower)
+        # grab most recent tweet from each user that the current user follows
+        for user in self.followerMap[userId]:
+            if self.posts[user]:
+                count, tweetId = self.posts[user][-1]
 
-        for user in self.userMap[userId]:
-            if not self.postMap[user]:
-                continue
+                # count, tweetId, userId, index
+                heap.append([count, tweetId, user, len(self.posts[user]) - 1])
 
-            tweetId, time = self.postMap[user][-1] # most recent post
-            posts.append([time, tweetId, user, len(self.postMap[user]) - 1]) # time, tweetId, user, index
-
-        heapq.heapify(posts)
+        heapq.heapify(heap)
         res = []
 
-        while posts and len(res) < 10:
-            time, tweetId, user, index = heapq.heappop(posts)
+        while heap and len(res) < 10:
+            count, tweetId, user, index = heapq.heappop(heap)
             res.append(tweetId)
 
-            if index - 1 >= 0:
-                tweetId, time = self.postMap[user][index - 1]
-                heapq.heappush(posts, [time, tweetId, user, index - 1])
+            if index > 0:
+                index -= 1
+                count, tweetId = self.posts[user][index]
+                heapq.heappush(heap, [count, tweetId, user, index])
 
         return res
 
     def follow(self, followerId: int, followeeId: int) -> None:
-        self.userMap[followerId].add(followeeId)
+        self.followerMap[followerId].add(followeeId)
         
 
     def unfollow(self, followerId: int, followeeId: int) -> None:
-        if followeeId in self.userMap[followerId]:
-            self.userMap[followerId].remove(followeeId)
+        if followeeId in self.followerMap[followerId]:
+            self.followerMap[followerId].remove(followeeId)
         
 
 
