@@ -8,41 +8,41 @@ class Solution:
         prev, curr = None, head
 
         while curr:
-            next = curr.next
-
+            nextNode = curr.next
             curr.next = prev
             prev = curr
-            curr = next
+            curr = nextNode
 
         return prev
-
 
     def reorderList(self, head: Optional[ListNode]) -> None:
         """
         Do not return anything, modify head in-place instead.
         """
-        if not head:
-            return None
+        if not head or not head.next:
+            return head
 
-        # reverse second half of list
         slow, fast = head, head.next
 
         while fast and fast.next:
             fast = fast.next.next
             slow = slow.next
 
-        list2 = slow.next
+        # slow will point to last node in first half of list
+        head2 = slow.next
         slow.next = None
-        list1 = head
 
-        list2 = self.reverseList(list2)
+        head2 = self.reverseList(head2)
 
-        while list1 and list2:
-            next1, next2 = list1.next, list2.next
+        head1 = head
 
-            list1.next = list2
-            list2.next = next1
+        while head1 and head2:
+            head1Next, head2Next = head1.next, head2.next
 
-            list1 = next1
-            list2 = next2
+            head1.next = head2
+            head2.next = head1Next
+
+            head1 = head1Next
+            head2 = head2Next
+            
         
