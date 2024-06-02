@@ -3,26 +3,24 @@ class Solution:
         currSet = []
         res = []
 
-        def backtrack(index, currSum):
+        def dfs(index, currSum):
             if currSum == target:
-                res.append(currSet[:])
+                res.append(currSet[::])
                 return
 
             if index == len(candidates):
-                return 
+                return
 
             if currSum > target:
                 return
 
-            # add current number (possibly numerous times)
             currSet.append(candidates[index])
-            backtrack(index, currSum + candidates[index])
+            dfs(index, currSum + candidates[index])
 
-            # do not add current number
             currSet.pop()
-            backtrack(index + 1, currSum)
+            dfs(index + 1, currSum)
 
-        backtrack(0, 0)
+        dfs(0, 0)
 
         return res
         
