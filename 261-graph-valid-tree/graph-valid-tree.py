@@ -4,16 +4,15 @@ class UnionFind:
         self.rank = [1] * n
 
     def find(self, node):
-        while self.parent[node] != node:
-            self.parent[node] = self.parent[self.parent[node]] # path compression
+        while node != self.parent[node]:
+            self.parent[node] = self.parent[self.parent[node]]
             node = self.parent[node]
 
         return node
 
-    # True if redundant connection
-    # False otherwise
-    def union(self, n1, n2):
-        p1, p2 = self.find(n1), self.find(n2)
+    # true for cycle
+    def union(self, node1, node2):
+        p1, p2 = self.find(node1), self.find(node2)
 
         if p1 == p2:
             return True
@@ -24,15 +23,15 @@ class UnionFind:
 
         else:
             self.parent[p1] = p2
-            self.rank[p2] += p1
+            self.rank[p2] += self.rank[p1]
 
         return False
 
 class Solution:
     def validTree(self, n: int, edges: List[List[int]]) -> bool:
-        # 2 criteria
-        # 1) no redundant connections
-        # 2) 1 connected component
+        # both requirements must be satisfied for it to be a valid tree:
+        # 1) one single connected component
+        # 2) no cycles
 
         uf = UnionFind(n)
         numComponents = n
@@ -44,5 +43,4 @@ class Solution:
             numComponents -= 1
 
         return numComponents == 1
-
         
