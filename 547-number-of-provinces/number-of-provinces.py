@@ -3,15 +3,13 @@ class UnionFind:
         self.parent = [i for i in range(n)]
         self.rank = [1] * n
 
-    def find(self, n):
-        while self.parent[n] != n:
-            self.parent[n] = self.parent[self.parent[n]] # path compression
-            n = self.parent[n]
+    def find(self, node):
+        while self.parent[node] != node:
+            self.parent[node] = self.parent[self.parent[node]]
+            node = self.parent[node]
 
-        return n
+        return node
 
-    # returns 0 if already connected
-    # returns 1 if not already connected and successfully merged
     def union(self, n1, n2):
         p1, p2 = self.find(n1), self.find(n2)
 
@@ -30,16 +28,14 @@ class UnionFind:
 
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        n = len(isConnected)
-        uf = UnionFind(n)
-        res = n
+        res = len(isConnected)
 
-        for i in range(n):
-            for j in range(n):
-                node1, node2 = i, j
+        uf = UnionFind(res)
 
+        for i in range(len(isConnected)):
+            for j in range(len(isConnected[i])):
                 if isConnected[i][j]:
-                    res -= uf.union(node1, node2)
+                    res -= uf.union(i, j)
 
         return res
         
