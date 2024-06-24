@@ -11,24 +11,19 @@ class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
         if not node:
             return
-
-        oldNodeToNewNode = {}
-
-        def getClones(currNode):
-            # check if node was already visited
-            if currNode in oldNodeToNewNode:
-                return
-
-            oldNodeToNewNode[currNode] = Node(currNode.val)
-
-            for nextNode in currNode.neighbors:
-                getClones(nextNode)
-                oldNodeToNewNode[currNode].neighbors.append(oldNodeToNewNode[nextNode])
-
-        # populate map
-        getClones(node)
-
-        return oldNodeToNewNode[node]
             
+        oldToNew = {}
 
+        def dfs(node):
+            if node in oldToNew:
+                return oldToNew[node]
+
+            oldToNew[node] = Node(node.val)
+
+            for neighbor in node.neighbors:
+                oldToNew[node].neighbors.append(dfs(neighbor))
+
+            return oldToNew[node]
+
+        return dfs(node)
         
