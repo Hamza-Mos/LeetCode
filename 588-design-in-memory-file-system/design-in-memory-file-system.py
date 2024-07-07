@@ -1,57 +1,76 @@
 class TrieNode:
     def __init__(self):
+        self.children = {}
         self.content = ""
-        self.children = defaultdict(TrieNode)
-        self.isfile = False
+        self.isFile = False
 
 class FileSystem:
 
     def __init__(self):
-        self.top = TrieNode()
+        self.root = TrieNode()
 
     def ls(self, path: str) -> List[str]:
-        path_lst = path.split("/")
-        node = self.top
-        for p in path_lst:
+        path = path.split("/")
+
+        curr = self.root
+
+        for p in path:
             if not p:
                 continue
-            node = node.children.get(p)
-        if node.isfile:
-            return [p]
-        ans = [i for i in node.children.keys()]
-        if not ans:
-            return ans
-        ans.sort()
-        return ans
-            
-            
+            curr = curr.children[p]
+
+        if curr.isFile:
+            return [path[-1]]
+
+        else:
+            return sorted(list(curr.children.keys()))
+        
+
     def mkdir(self, path: str) -> None:
-        path_lst = path.split("/")
-        node = self.top
-        for p in path_lst:
+        path = path.split("/")
+
+        curr = self.root
+
+        for p in path:
             if not p:
                 continue
-            node = node.children[p]
+
+            if p not in curr.children:
+                curr.children[p] = TrieNode()
+
+            curr = curr.children[p]
+        
 
     def addContentToFile(self, filePath: str, content: str) -> None:
-        path_lst = filePath.split("/")
-        node = self.top
-        for p in path_lst:
+        path = filePath.split("/")
+
+        curr = self.root
+
+        for p in path:
             if not p:
                 continue
-            node = node.children[p]
-        node.content += content
-        node.isfile = True
+
+            if p not in curr.children:
+                curr.children[p] = TrieNode()
+
+            curr = curr.children[p]
+
+        curr.content += content
+        curr.isFile = True
         
+
     def readContentFromFile(self, filePath: str) -> str:
-        path_lst = filePath.split("/")
-        node = self.top
-        for p in path_lst:
+        path = filePath.split("/")
+
+        curr = self.root
+        
+        for p in path:
             if not p:
                 continue
-            node = node.children.get(p)
-        return node.content
-        
+
+            curr = curr.children[p]
+
+        return curr.content
 
 
 # Your FileSystem object will be instantiated and called as such:
