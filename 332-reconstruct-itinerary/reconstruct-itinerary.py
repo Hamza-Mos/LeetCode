@@ -1,24 +1,22 @@
 class Solution:
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
-        # sort tickets in reverse order since we are popping from back of adjacency list
         tickets.sort(reverse=True)
 
         adjList = defaultdict(list)
-
         for src, dest in tickets:
             adjList[src].append(dest)
 
-        res = []
+        result = []
 
-        def dfs(source):
-
-            while adjList[source]:
-                nextDest = adjList[source].pop()
+        def dfs(src):
+            while adjList[src]:
+                nextDest = adjList[src].pop()
                 dfs(nextDest)
 
-            res.append(source)
+            result.append(src)
+
 
         dfs("JFK")
 
-        return res[::-1]
+        return result[::-1]
         
