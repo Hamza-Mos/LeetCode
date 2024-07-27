@@ -1,5 +1,6 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
+        # dp[i] indicates the max profit starting from the ith house
         # dp[i] = dp[i + 1] or dp[i + 2] + nums[i]
         if len(nums) <= 2:
             return max(nums)
@@ -11,11 +12,6 @@ class Solution:
             temp = max(robCurrHouse + nums[i], skipCurrHouse)
             robCurrHouse = skipCurrHouse
             skipCurrHouse = temp
-
-        # [2, 1, 1, 2]
-        # temp: 3
-        # robCurrHouse: 1
-        # skipCurrHouse: 3
 
         return skipCurrHouse
         
