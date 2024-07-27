@@ -1,37 +1,30 @@
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        adjList = collections.defaultdict(list)
+        adjList = defaultdict(list)
 
-        for src, dest, time in times:
-            adjList[src].append([dest, time])
-
-        # min heap will contain elements in the form of [time, src, dest]
-        minHeap = [[0, k, k]]
-        res = 0
+        for src, dest, weight in times:
+            adjList[src].append([dest, weight])
 
         visited = set()
+        minHeap = [[0, k]] # weight, node
 
         while minHeap:
-            currTime, src, dest = heapq.heappop(minHeap)
+            weight, node = heapq.heappop(minHeap)
 
-            if dest in visited:
+            if node in visited:
                 continue
 
-            visited.add(dest)
+            visited.add(node)
 
-            # the signal has reached all nodes
-            if n == len(visited):
-                return currTime
+            if len(visited) == n:
+                return weight
 
-            for nextDest, time in adjList[dest]:
-                if nextDest in visited:
+            for nextNode, nextWeight in adjList[node]:
+                if nextNode in visited:
                     continue
 
-                heapq.heappush(minHeap, [currTime + time, dest, nextDest])
+                heapq.heappush(minHeap, [weight + nextWeight, nextNode])
 
         return -1
-
-        
-
 
         
