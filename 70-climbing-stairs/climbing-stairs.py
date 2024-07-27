@@ -3,13 +3,14 @@ class Solution:
         if n <= 2:
             return n
 
-        n1 = 1 # first step
-        n2 = 2 # second step
+        n1 = 1
+        n2 = 2
 
         for i in range(3, n + 1):
-            temp = n1 + n2
+            currStep = n1 + n2
             n1 = n2
-            n2 = temp
+            n2 = currStep
 
         return n2
+
         
