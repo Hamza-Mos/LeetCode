@@ -31,18 +31,12 @@ class Solution:
             prefixSum = 0 # number of good leaf nodes found from this point
             index1 = distance - 2 # max distance from left subtree
 
-            # prefixSum = 0
-            # for index1 in range(distance - 1, -1, -1):
-            #     prefixSum += leftSubTree[index1]
-            #     if distance - 2 - index1 >= 0:
-            #         self.res += prefixSum * rightSubTree[distance - 2 - index1]
-
             prefixSum = 0
-            index1 = 0
-            for index2 in range(distance - 2, -1, -1):
-                prefixSum += leftSubTree[index1]
-                self.res += prefixSum * rightSubTree[index2]
-                index1 += 1
+            index2 = 0
+            for index1 in range(distance - 2, -1, -1):
+                prefixSum += rightSubTree[index2]
+                self.res += prefixSum * leftSubTree[index1]
+                index2 += 1
 
             return currNode
 
