@@ -1,40 +1,38 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        adjList = {}
-
-        for i in range(numCourses):
-            adjList[i] = []
+        adjList = defaultdict(list)
 
         for crs, pre in prerequisites:
             adjList[crs].append(pre)
 
-        coursesFinished = []
-        visited = set()
         path = set()
+        visit = set()
 
-        # returns True if there is a cycle, false if valid (no cycle)
+        res = []
+
+        # returns True if cycle is detected
+        # False otherwise
         def dfs(crs):
             if crs in path:
                 return True
 
-            if crs in visited:
+            if crs in visit:
                 return False
+
 
             path.add(crs)
 
-            for prereq in adjList[crs]:
-                if dfs(prereq):
+            for pre in adjList[crs]:
+                if dfs(pre):
                     return True
 
-            # remove from current path and add to visited set
             path.remove(crs)
-            visited.add(crs)
+            visit.add(crs)
+            res.append(crs)
 
-            # add to coursesFinished
-            coursesFinished.append(crs)
-
-        for crs in adjList:
+        for crs in range(numCourses):
             if dfs(crs):
                 return False
+
+        return True if len(res) == numCourses else False
         
-        return True if len(coursesFinished) == numCourses else False
