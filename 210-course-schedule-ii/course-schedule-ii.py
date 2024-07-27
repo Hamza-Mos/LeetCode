@@ -1,20 +1,21 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        adjList = { i: [] for i in range(numCourses) }
+        adjList = defaultdict(list)
 
         for crs, pre in prerequisites:
             adjList[crs].append(pre)
 
+        visit = set()
         path = set()
-        visited = set()
         res = []
 
         # returns True for cycle
+        # False if valid
         def dfs(crs):
             if crs in path:
                 return True
 
-            if crs in visited:
+            if crs in visit:
                 return False
 
             path.add(crs)
@@ -24,7 +25,8 @@ class Solution:
                     return True
 
             path.remove(crs)
-            visited.add(crs)
+            visit.add(crs)
+
             res.append(crs)
 
             return False
