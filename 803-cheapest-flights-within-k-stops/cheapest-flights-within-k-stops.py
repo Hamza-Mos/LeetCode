@@ -1,27 +1,22 @@
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        # bellman ford algo
         prices = [float('inf')] * n
-
-        # we can start at src location
         prices[src] = 0
 
+
+        # k + 1 because 0 is no stops, last iteration of loop will have k stops
         for i in range(k + 1):
-            # here is why we need a temp copy of the prices array
+            pricesTemp = prices.copy()
 
-            # prices shows the min price it takes to get to a location using (i - 1) intermediate stops
-
-            # tmpPrices will be used to determine min price it takes to get to each location starting from
-            # the src location using i intermediate stops (which will be prices[location] + additionalPrice)
-            tmpPrices = prices.copy()
-
-            for source, destination, price in flights:
-                # we cannot yet reach the src location
-                if prices[source] == float('inf'):
+            for s, d, dist in flights:
+                # impossible to reach src
+                if prices[s] == float('inf'):
                     continue
 
-                # we can reach the src location and thus can reach dest location with additional price
-                tmpPrices[destination] = min(tmpPrices[destination], prices[source] + price)
+                pricesTemp[d] = min(pricesTemp[d], prices[s] + dist)
 
-            prices = tmpPrices # update prices array
+            prices = pricesTemp
 
-        return -1 if prices[dst] == float('inf') else prices[dst]
+        return prices[dst] if prices[dst] != float('inf') else -1
+        
