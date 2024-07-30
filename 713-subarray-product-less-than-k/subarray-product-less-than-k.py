@@ -13,8 +13,6 @@ class Solution:
                 product = product // nums[left]
                 left += 1
 
-            print([left, right])
-
             res += (right - left + 1)
 
         return res
