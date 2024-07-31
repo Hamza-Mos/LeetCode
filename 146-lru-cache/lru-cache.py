@@ -1,40 +1,38 @@
-class Node:
-    def __init__(self, key, val, next = None, prev = None):
+class ListNode:
+    def __init__(self, key, value, prev = None, next = None):
         self.key = key
-        self.val = val
-        self.next = next
+        self.value = value
         self.prev = prev
+        self.next = next
 
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.cache = {}
+        self.cache = {} # maps key to node
         self.capacity = capacity
-
-        self.left = Node(0, 0)
-        self.right = Node(0, 0)
-
+        self.left = ListNode(-1, -1)
+        self.right = ListNode(-1, -1)
         self.left.next = self.right
         self.right.prev = self.left
 
-    def insert(self, key, val):
-        prevNode, nextNode = self.right.prev, self.right
-
-        newNode = Node(key, val, nextNode, prevNode)
-
-        prevNode.next = newNode
-        self.right.prev = newNode
-
+    # helper functions
+    def insert(self, key, value):
+        newNode = ListNode(key, value)
         self.cache[key] = newNode
 
+        prevNode = self.right.prev
+        prevNode.next = newNode
+        self.right.prev = newNode
+        newNode.next = self.right
+        newNode.prev = prevNode
+
     def remove(self, key):
-        oldNode = self.cache[key]
+        nodeToRemove = self.cache[key]
+        del self.cache[key] # remove from cache
 
-        prevNode, nextNode = oldNode.prev, oldNode.next
-
-        prevNode.next, nextNode.prev = nextNode, prevNode
-
-        del self.cache[key]
+        prevNode, nextNode = nodeToRemove.prev, nodeToRemove.next
+        prevNode.next = nextNode
+        nextNode.prev = prevNode
         
 
     def get(self, key: int) -> int:
@@ -42,15 +40,19 @@ class LRUCache:
             return -1
 
         node = self.cache[key]
-
+        value = node.value
         self.remove(key)
-        self.insert(node.key, node.val)
+        self.insert(key, value)
 
-        return node.val
+        return value
+        
 
     def put(self, key: int, value: int) -> None:
+        # case that key exists
         if key in self.cache:
             self.remove(key)
+            self.insert(key, value)
+            return
 
         self.insert(key, value)
 
