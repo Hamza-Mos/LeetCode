@@ -7,6 +7,7 @@ class Solution:
     def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
         root = TrieNode()
         res = []
+        products.sort()
 
         # functions for trie
         def insertWord(word):
@@ -30,8 +31,8 @@ class Solution:
 
             if char in root.children:
                 root = root.children[char]
-                print(char, root.words, root.children)
-                res.append(sorted(root.words)[:3])
+                # print(char, root.words, root.children)
+                res.append(root.words[:3])
 
             else:
                 break
