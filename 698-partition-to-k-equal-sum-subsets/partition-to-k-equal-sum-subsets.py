@@ -13,7 +13,7 @@ class Solution:
 
         # sort in reverse order
         # basically if any number is larger than the targetSum then we know its impossible
-        nums.sort(reverse=True)
+        # nums.sort(reverse=True)
 
         cache = {} # contains mask as key and boolean values
         mask = 0
