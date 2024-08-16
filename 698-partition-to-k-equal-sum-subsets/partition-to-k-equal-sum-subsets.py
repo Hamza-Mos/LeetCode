@@ -24,7 +24,7 @@ class Solution:
             if mask in cache:
                 return cache[mask]
 
-            if numSubsets == k:
+            if numSubsets == k - 1:
                 return True
 
             if currSum > targetSum:
