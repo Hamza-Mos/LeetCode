@@ -20,8 +20,6 @@ class Solution:
             down = dfs(i + 1, j)
             right = dfs(i, j + 1)
             
-            # no valid paths
-            
             products = []
             for path in [down, right]:
                 if path[0] is not None:
@@ -31,7 +29,7 @@ class Solution:
         
         result = dfs(0, 0)
 
-        if result[0] is None or result[0] < 0:
+        if result[0] < 0:
             return -1
 
         return result[0] % MOD
