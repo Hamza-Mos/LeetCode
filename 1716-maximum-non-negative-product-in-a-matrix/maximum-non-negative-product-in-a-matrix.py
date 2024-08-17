@@ -8,27 +8,30 @@ class Solution:
         
         @cache
         def dfs(i, j): 
-            """Return maximum & minimum products starting at (i, j)."""
+            # last cell in the grid
             if i == m - 1 and j == n - 1: 
                 return grid[i][j], grid[i][j]
+
+            # out of bounds
             if i >= m or j >= n: 
-                return None, None  # Use None instead of infinity
+                return None, None 
             
-            # Recursive calls to explore the next cells (down and right)
+            # explore paths
             down = dfs(i + 1, j)
             right = dfs(i, j + 1)
             
-            if down[0] is None and right[0] is None:
-                return None, None
+            # no valid paths
             
             products = []
             for path in [down, right]:
                 if path[0] is not None:
                     products.extend([path[0] * grid[i][j], path[1] * grid[i][j]])
             
-            return max(products), min(products)
+            return max(products), min(products) # max and min values in path starting at (i, j)
         
         result = dfs(0, 0)
+
         if result[0] is None or result[0] < 0:
             return -1
+
         return result[0] % MOD
