@@ -15,7 +15,7 @@ class Solution:
             insertPosition = sortedWindow.bisect_left(nums[currentIndex])
             
             # Check the closest values around the insertion point
-            for nearbyIndex in [insertPosition - 1, insertPosition, insertPosition + 1]:
+            for nearbyIndex in [insertPosition - 1, insertPosition]:
                 if 0 <= nearbyIndex < len(sortedWindow):  # Ensure nearbyIndex is within bounds
                     minDifference = min(minDifference, abs(nums[currentIndex] - sortedWindow[nearbyIndex]))
         
