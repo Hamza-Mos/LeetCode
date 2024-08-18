@@ -5,17 +5,16 @@ class Solution:
         for crs, pre in prerequisites:
             adjList[crs].append(pre)
 
-        visit = set()
         path = set()
+        visited = set()
         res = []
 
-        # returns True for cycle
-        # False if valid
+        # returns True if cycle is detected
         def dfs(crs):
             if crs in path:
                 return True
 
-            if crs in visit:
+            if crs in visited:
                 return False
 
             path.add(crs)
@@ -25,8 +24,7 @@ class Solution:
                     return True
 
             path.remove(crs)
-            visit.add(crs)
-
+            visited.add(crs)
             res.append(crs)
 
             return False
