@@ -7,10 +7,9 @@ class Solution:
         minDifference = float('inf')  # Initialize result with infinity
         
         # Iterate over the array with index current representing the current element
-        for currentIndex in range(n):
-            # Ensure the window size is at least minDistance
-            if currentIndex >= x:
-                sortedWindow.add(nums[currentIndex - x])
+        # start from x to ensure the window size is at least minDistance
+        for currentIndex in range(x, n):
+            sortedWindow.add(nums[currentIndex - x])
             
             # Perform binary search to find the position to insert nums[currentIndex] in sortedWindow
             insertPosition = sortedWindow.bisect_left(nums[currentIndex])
