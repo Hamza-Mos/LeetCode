@@ -18,9 +18,10 @@ class Solution:
         # `replace_count` tracks the number of replacements needed for sequences of three or more repeating characters.
         replace_count = 0
         
-        # `reduce_by_one`, `reduce_by_two` track sequences where length % 3 == 0 or 1 respectively.
-        reduce_by_one = 0
-        reduce_by_two = 0
+        # Track sequences by their remainder when divided by 3.
+        reduce_by_one = 0   # Tracks sequences where length % 3 == 0
+        reduce_by_two = 0   # Tracks sequences where length % 3 == 1
+        reduce_by_three = 0 # Tracks sequences where length % 3 == 2
         
         # Start scanning the password from the third character (index 2).
         index = 2
@@ -42,6 +43,8 @@ class Solution:
                     reduce_by_one += 1
                 elif repeating_length % 3 == 1:
                     reduce_by_two += 1
+                elif repeating_length % 3 == 2:
+                    reduce_by_three += 1
             else:
                 # Move to the next character if no repetition.
                 index += 1
