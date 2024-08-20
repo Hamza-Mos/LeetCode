@@ -84,8 +84,14 @@ class Solution:
         compressed_mat1 = compress_matrix(mat1)
         compressed_mat2 = compress_matrix(mat2)
 
+        # row_index is the index of the current row we are iterating through in mat1
+        # row_elements is the list of elements in compressed_mat1[row_index]
         for row_index, row_elements in enumerate(compressed_mat1):
+            # val1 is the value from mat1 that we will use for our calculation
+            # index is the column index from mat1 -> val1 is mat1[row_index][index] (not compressed_mat1)
             for val1, index in row_elements:
+                # val2 is the value from mat2 that we will use for our calculation
+                # col_index is the index column from mat2 -> val2 is mat2[index][col_index] (not compressed_mat2)
                 for val2, col_index in compressed_mat2[index]:
                     res[row_index][col_index] += val1 * val2
 
