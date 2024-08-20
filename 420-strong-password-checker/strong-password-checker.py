@@ -43,6 +43,8 @@ class Solution:
                     reduce_by_one += 1
                 elif repeating_length % 3 == 1:
                     reduce_by_two += 1
+                elif repeating_length % 3 == 2:
+                    reduce_by_three += 1
             else:
                 # Move to the next character if no repetition.
                 index += 1
@@ -60,9 +62,16 @@ class Solution:
             deletions_needed = len(password) - 20  # Number of deletions to reduce length to 20.
             
             # Optimize the number of replacements by deleting characters in certain repeating sequences.
-            replace_count -= min(deletions_needed, reduce_by_one) # prioritize sequences where length % 3 == 0 (remove 1 character)
-            replace_count -= min(max(deletions_needed - reduce_by_one, 0), reduce_by_two * 2) // 2 # sequences where length % 3 == 1 (remove 2 characters)
-            replace_count -= max(deletions_needed - reduce_by_one - 2 * reduce_by_two, 0) // 3 # all other sequences (would need )
+
+            # prioritize sequences where length % 3 == 0 (remove 1 character)
+            replace_count -= min(deletions_needed, reduce_by_one)
+
+            # sequences where length % 3 == 1 (remove 2 characters)
+            replace_count -= min(max(deletions_needed - reduce_by_one, 0), reduce_by_two * 2) // 2
+
+            # if there are still deletions left, then we can remove the need of replacements by deleting triplets
+            # this also addresses the case where length % 3 == 2 (remove 3 characters)
+            replace_count -= max(deletions_needed - reduce_by_one - 2 * reduce_by_two, 0) // 3 
                 
             # Total steps are the sum of deletions and the maximum of remaining replacements or missing character types.
             return deletions_needed + max(missing_char_types, replace_count)
