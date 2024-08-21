@@ -10,6 +10,13 @@ class CountIntervals:
         self.total_coverage = 0   
 
     def add(self, left: int, right: int) -> None:
+        """
+        time complexity: O(log n + m)
+
+        where n is the number of intervals in self.intervals
+        where m is the number of intervals between left_index and right_index (calculating coverage to remove)
+
+        """
         # Reference to the intervals list for easier access
         intervals = self.intervals
         
