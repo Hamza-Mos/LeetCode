@@ -13,6 +13,9 @@
 
 important background for this problem:
 
+Process refers to an instance of a running program. When you execute a program, the operating system 
+creates a process for that program. A process has its own memory space, system resources, and execution state.
+
 Threads are the smallest unit of execution within a process. A process can have multiple threads, 
 all sharing the same memory space but executing independently. This allows a program to perform 
 multiple operations concurrently, making it more efficient, especially in tasks that involve waiting 
@@ -52,7 +55,7 @@ class Solution:
                 # Pop a task from the left of the deque
                 urls = q.popleft()
 
-                # Keep checking the deque for tasks that have completed
+                # check if the current task is done or not
                 task_is_done = urls.done()
                 if not task_is_done:
                     # If not done, re-append the task to the deque
