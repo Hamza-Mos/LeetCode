@@ -62,5 +62,6 @@ class Solution:
             if nums[i - 1] >= 0:
                 return i
 
+        # we have seen all numbers in {1, ..., len(nums)} so len(nums) + 1 must be the answer
         return len(nums) + 1
         
