@@ -1,34 +1,43 @@
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
-        # all jobs sorted by startTime
-        jobs = sorted(zip(startTime, endTime, profit))
+        # just group up the list 
+        # (startTime, endTime, profit)
+        times_and_profits = list(zip(startTime, endTime, profit))
 
-        # dp cache
-        cache = {}
+        # sort by startTime
+        times_and_profits.sort()
+
+        """
+        approach:
+
+        - top-down memoization solution
+        - we have 2 choices for each job:
+            - skip it and move to next index
+            - take it and then call the function on the next valid index
+                - next valid index is when the next startTime >= current endTime
+
+        """
+
+        cache = {} # index -> max profit starting at jobs[index:]
 
         def dfs(index):
-            if index >= len(jobs):
-                return 0
-
-            # check cache
             if index in cache:
                 return cache[index]
 
-            # profit from skipping current job
-            skipJob = dfs(index + 1)
+            if index == len(times_and_profits):
+                return 0
 
-            start, end, profit = jobs[index]
+            skip_job = dfs(index + 1)
 
-            # profit of scheduling current job
-            takeJob = profit
+            # take job
+            start_time, end_time, profit = times_and_profits[index]
 
-            # find next non conflicting job
-            nextJobIndex = bisect.bisect_left(jobs, (end, -1, -1))
+            # find next index
+            next_index = bisect.bisect_left(times_and_profits, (end_time, -1, -1))
 
-            takeJob += dfs(nextJobIndex)
-
-            cache[index] = max(takeJob, skipJob)
+            cache[index] = max(profit + dfs(next_index), skip_job)
 
             return cache[index]
 
         return dfs(0)
+        
