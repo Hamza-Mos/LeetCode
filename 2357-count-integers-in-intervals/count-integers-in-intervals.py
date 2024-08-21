@@ -11,7 +11,8 @@ class CountIntervals:
 
     def add(self, left: int, right: int) -> None:
         """
-        time complexity: O(log n + m)
+        time complexity: O(log n + m + n) == O(n) because of slicing intervals[left:right] = merged_interval
+                                                                            (this is an O(n) operation)
 
         where n is the number of intervals in self.intervals
         where m is the number of intervals between left_index and right_index (calculating coverage to remove)
