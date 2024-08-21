@@ -49,18 +49,15 @@ class Solution:
             q = deque([executor.submit(htmlParser.getUrls, startUrl)])
             
             while q:
+                # Pop a task from the left of the deque
+                urls = q.popleft()
+
                 # Keep checking the deque for tasks that have completed
-                while True:
-                    # Pop a task from the left of the deque
-                    urls = q.popleft()
-                    
-                    # Check if the task has finished execution
-                    if urls.done():
-                        # If done, break the loop and process the results
-                        break
-                    
+                task_is_done = urls.done()
+                if not task_is_done:
                     # If not done, re-append the task to the deque
                     q.append(urls)
+                    continue
 
                 # Iterate over each URL fetched from the current task
                 for url in urls.result():
