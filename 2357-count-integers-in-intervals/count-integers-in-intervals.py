@@ -1,6 +1,10 @@
 from bisect import bisect_left, bisect_right
 from math import inf
 
+# if you use sorted list: in the worst case, it is O(n log n) time complexity because
+# removal and insertion takes O(log n) and you may have to remove all existing intervals
+# in the list (case were m == n)
+
 class CountIntervals:
 
     def __init__(self):
