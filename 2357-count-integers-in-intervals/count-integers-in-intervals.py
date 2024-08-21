@@ -14,13 +14,14 @@ class CountIntervals:
         intervals = self.intervals
         
         # Find the left-most position to insert the new interval or merge with existing ones.
-        left_index = bisect_left(intervals, left, key=lambda x: x[1])
+        # We use `left - 1` because interval boundaries are inclusive.
+        left_index = bisect_left(intervals, left - 1, key=lambda x: x[1])
         # Determine the minimum left boundary of the merged interval
         merged_left = min(intervals[left_index][0], left)
         
         # Find the right-most position to insert the new interval or merge with existing ones.
         # We use `right + 1` because interval boundaries are inclusive.
-        right_index = bisect_right(intervals, right, key=lambda x: x[0])
+        right_index = bisect_right(intervals, right + 1, key=lambda x: x[0])
         # Determine the maximum right boundary of the merged interval
         merged_right = max(intervals[right_index - 1][1], right)
 
