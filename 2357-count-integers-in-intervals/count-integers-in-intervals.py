@@ -15,7 +15,7 @@ class CountIntervals:
         
         # Find the left-most position to insert the new interval or merge with existing ones.
         # We use `left - 1` because interval boundaries are inclusive.
-        left_index = bisect_left(intervals, left - 1, key=lambda x: x[1])
+        left_index = bisect_left(intervals, left, key=lambda x: x[1])
         # Determine the minimum left boundary of the merged interval
         merged_left = min(intervals[left_index][0], left)
         
