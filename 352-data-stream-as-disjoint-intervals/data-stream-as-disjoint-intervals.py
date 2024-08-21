@@ -15,9 +15,13 @@ class SummaryRanges:
         res = []
 
         for n in self.nums:
+            # if the current number belongs to previous interval in res
+            # meaning that current number == 1 + last number
+            # then update the latest interval
             if res and n == res[-1][1] + 1:
                 res[-1][1] = n
 
+            # otherwise, add a new interval to the list
             else:
                 res.append([n, n])
 
