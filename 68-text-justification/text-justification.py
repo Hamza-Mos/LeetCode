@@ -32,6 +32,7 @@ class Solution:
                     # remainderSpaces should be 0 since we are dividing by 1 word (always divides evenly)
                     res.append(currLine[0] + (" " * extraSpaces))
 
+                # multiple words
                 else:
                     # spaces divided by words evenly
                     spacesPerWord = extraSpaces // (len(currLine) - 1)
