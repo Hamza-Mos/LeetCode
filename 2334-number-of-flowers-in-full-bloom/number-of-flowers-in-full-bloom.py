@@ -18,6 +18,10 @@ class Solution:
             - we can track the count of flowers that each person sees by the length of the heap
                 - heap will always contain the flowers that are in full bloom
 
+            - (alternative approach): instead of sorting the flowers array, we could have a heap for
+              start times of flowers and another one for end times of flowers. time complexity
+              is the same but space complexity is worse
+
         m - length of flowers
         n - length of people
         time: O(nlogn + mlogm)
