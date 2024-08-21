@@ -9,34 +9,70 @@
 #        :rtype List[str]
 #        """
 
+"""
+
+important background for this problem:
+
+Threads are the smallest unit of execution within a process. A process can have multiple threads, 
+all sharing the same memory space but executing independently. This allows a program to perform 
+multiple operations concurrently, making it more efficient, especially in tasks that involve waiting 
+(e.g., I/O operations like HTTP requests).
+
+ThreadPoolExecutor is a class in Python's concurrent.futures module that allows for managing a 
+pool of threads. It is used to efficiently manage multiple threads by reusing a fixed number of threads 
+to execute tasks. Instead of creating a new thread for each task (which can be costly in terms of resources), 
+ThreadPoolExecutor maintains a pool of threads and assigns tasks to threads in this pool. This reduces the 
+overhead associated with thread creation and destruction.
+
+"""
+
 from collections import deque
 from concurrent import futures
 
 class Solution:
 
     def _get_hostname(self, url):
+        # Extract the hostname from the URL by splitting the URL by "/" and taking the third element.
+        # Example: For "http://example.org/test", it will return "example.org".
         return url.split("/")[2]
 
     def crawl(self, startUrl: str, htmlParser: 'HtmlParser') -> List[str]:
+        # Extract the hostname from the startUrl
         hostname = self._get_hostname(startUrl)
+        
+        # A set to keep track of URLs that have already been crawled
         crawled_urls = set([startUrl])
 
+        # Create a ThreadPoolExecutor to manage threads
         with futures.ThreadPoolExecutor() as executor:
+            # Initialize a deque (double-ended queue) with a task to fetch URLs from startUrl
             q = deque([executor.submit(htmlParser.getUrls, startUrl)])
+            
             while q:
-
-                # Find any crawling that has completed
+                # Keep checking the deque for tasks that have completed
                 while True:
+                    # Pop a task from the left of the deque
                     urls = q.popleft()
+                    
+                    # Check if the task has finished execution
                     if urls.done():
+                        # If done, break the loop and process the results
                         break
+                    
+                    # If not done, re-append the task to the deque
                     q.append(urls)
 
+                # Iterate over each URL fetched from the current task
                 for url in urls.result():
+                    # Check if the URL belongs to the same hostname and hasn't been crawled yet
                     if self._get_hostname(url) == hostname and url not in crawled_urls:
+                        # Add the URL to the set of crawled URLs
                         crawled_urls.add(url)
+                        
+                        # Submit a new task to fetch URLs from the newly found URL and append it to the deque
                         q.append(
                             executor.submit(htmlParser.getUrls, url)
                         )
 
+        # Convert the set of crawled URLs to a list and return it
         return list(crawled_urls)
