@@ -40,20 +40,6 @@ class SnapshotArray:
         index = bisect.bisect_left(vals, [snap_id, float('inf')])
 
         return vals[index - 1][1]
-
-        while low <= high:
-            mid = (low + high) // 2
-
-            snapId, val = vals[mid]
-
-            if snapId <= snap_id:
-                output = val
-                low = mid + 1
-
-            else:
-                high = mid - 1
-
-        return output
         
 
 
