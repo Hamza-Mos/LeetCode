@@ -21,7 +21,6 @@ class Solution:
 
                 for nextWord in adjList[wildcard]:
                     if nextWord == endWord:
-                        print(word)
                         return numRounds + 1
                     if nextWord not in visit:
                         q.append([nextWord, numRounds + 1])
