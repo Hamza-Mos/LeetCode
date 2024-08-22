@@ -37,6 +37,10 @@ class SnapshotArray:
         low, high = 0, len(vals) - 1
         output = -1
 
+        index = bisect.bisect_left(vals, [snap_id, float('inf')])
+
+        return vals[index - 1][1]
+
         while low <= high:
             mid = (low + high) // 2
 
