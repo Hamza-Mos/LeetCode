@@ -5,22 +5,21 @@ class TimeMap:
         
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        self.map[key].append((timestamp, value))
+        self.map[key].append([timestamp, value])
         
 
     def get(self, key: str, timestamp: int) -> str:
-        output = ""
-        outputList = self.map[key]
+        vals = self.map[key]
 
-        low, high = 0, len(outputList) - 1
+        output = ""
+        low, high = 0, len(vals) - 1
 
         while low <= high:
-            mid = (low + high) // 2
+            mid = low + ((high - low) // 2) # avoids overflow
+            time, val = vals[mid]
 
-            currTime, currValue = outputList[mid]
-
-            if currTime <= timestamp:
-                output = currValue
+            if time <= timestamp:
+                output = val
                 low = mid + 1
 
             else:
