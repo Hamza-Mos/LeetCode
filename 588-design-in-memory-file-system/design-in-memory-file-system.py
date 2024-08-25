@@ -1,76 +1,80 @@
+# Trie solution
+
 class TrieNode:
     def __init__(self):
-        self.children = {}
-        self.content = ""
+        # children nodes
+        self.children = {} # maps a directory to another trienode
         self.isFile = False
+
+        # files contain content
+        self.content = ""
 
 class FileSystem:
 
     def __init__(self):
-        self.root = TrieNode()
+        self.root = TrieNode() # root directory: /
+        
 
     def ls(self, path: str) -> List[str]:
-        path = path.split("/")
+        # root directory
+        if path == "/":
+            return sorted(list(self.root.children.keys()))
 
+        path = path.split("/")[1:] # removes the empty string in the beginning
         curr = self.root
 
-        for p in path:
-            if not p:
-                continue
-            curr = curr.children[p]
+        for directory in path:
+            if directory not in curr.children:
+                curr.children[directory] = TrieNode()
 
+            curr = curr.children[directory]
+
+        # case where path is a file path
         if curr.isFile:
             return [path[-1]]
 
-        else:
-            return sorted(list(curr.children.keys()))
+        directoryList = list(curr.children.keys())
+
+        return sorted(directoryList)
         
 
     def mkdir(self, path: str) -> None:
-        path = path.split("/")
-
+        path = path.split("/")[1:] # removes the empty string in the beginning
         curr = self.root
 
-        for p in path:
-            if not p:
-                continue
+        for directory in path:
+            if directory not in curr.children:
+                curr.children[directory] = TrieNode()
 
-            if p not in curr.children:
-                curr.children[p] = TrieNode()
-
-            curr = curr.children[p]
+            curr = curr.children[directory]
         
 
     def addContentToFile(self, filePath: str, content: str) -> None:
-        path = filePath.split("/")
-
+        path = filePath.split("/")[1:] # removes the empty string in the beginning
         curr = self.root
 
-        for p in path:
-            if not p:
-                continue
+        for directory in path:
+            if directory not in curr.children:
+                curr.children[directory] = TrieNode()
 
-            if p not in curr.children:
-                curr.children[p] = TrieNode()
-
-            curr = curr.children[p]
-
-        curr.content += content
+            curr = curr.children[directory]
+        
         curr.isFile = True
+        curr.content += content
         
 
     def readContentFromFile(self, filePath: str) -> str:
-        path = filePath.split("/")
-
+        path = filePath.split("/")[1:] # removes the empty string in the beginning
         curr = self.root
+
+        for directory in path:
+            if directory not in curr.children:
+                curr.children[directory] = TrieNode()
+
+            curr = curr.children[directory]
         
-        for p in path:
-            if not p:
-                continue
-
-            curr = curr.children[p]
-
         return curr.content
+        
 
 
 # Your FileSystem object will be instantiated and called as such:
