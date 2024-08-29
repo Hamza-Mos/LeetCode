@@ -1,48 +1,49 @@
-# Trie solution
+# ["FileSystem","mkdir","ls","ls","mkdir","ls","ls","addContentToFile","ls","ls","ls"]
+# [[],["/goowmfn"],["/goowmfn"],["/"],["/z"],["/"],["/"],["/goowmfn/c","shetopcy"],["/z"],["/goowmfn/c"],["/goowmfn"]]
+# [null,null,[],["goowmfn"],null,["goowmfn","z"],["goowmfn","z"],null,[],["/goowmfn/c"],["c"]]
+# [null,null,[],["goowmfn"],null,["goowmfn","z"],["goowmfn","z"],null,[],["c"],["c"]]
+
+"""
+
+"""
 
 class TrieNode:
     def __init__(self):
-        # children nodes
-        self.children = {} # maps a directory to another trienode
-        self.isFile = False
-
-        # files contain content
-        self.content = ""
+        self.children = {}
 
 class FileSystem:
 
     def __init__(self):
-        self.root = TrieNode() # root directory: /
+        self.files = defaultdict(str) # maps file paths to their contents
+        self.root = TrieNode()
         
 
     def ls(self, path: str) -> List[str]:
+        # path
+        if path in self.files:
+            return [path.split("/")[-1]]
+
         # root directory
         if path == "/":
             return sorted(list(self.root.children.keys()))
 
-        path = path.split("/")[1:] # removes the empty string in the beginning
         curr = self.root
+        directories = path.split("/")[1:]
 
-        for directory in path:
+        for directory in directories:
             if directory not in curr.children:
                 curr.children[directory] = TrieNode()
 
             curr = curr.children[directory]
 
-        # case where path is a file path
-        if curr.isFile:
-            return [path[-1]]
-
-        directoryList = list(curr.children.keys())
-
-        return sorted(directoryList)
+        return sorted(list(curr.children.keys()))
         
 
     def mkdir(self, path: str) -> None:
-        path = path.split("/")[1:] # removes the empty string in the beginning
         curr = self.root
+        directories = path.split("/")[1:]
 
-        for directory in path:
+        for directory in directories:
             if directory not in curr.children:
                 curr.children[directory] = TrieNode()
 
@@ -50,30 +51,16 @@ class FileSystem:
         
 
     def addContentToFile(self, filePath: str, content: str) -> None:
-        path = filePath.split("/")[1:] # removes the empty string in the beginning
-        curr = self.root
+        # file not in trie
+        if filePath not in self.files:
+            self.mkdir(filePath)
+            
+        self.files[filePath] += content
 
-        for directory in path:
-            if directory not in curr.children:
-                curr.children[directory] = TrieNode()
-
-            curr = curr.children[directory]
-        
-        curr.isFile = True
-        curr.content += content
         
 
     def readContentFromFile(self, filePath: str) -> str:
-        path = filePath.split("/")[1:] # removes the empty string in the beginning
-        curr = self.root
-
-        for directory in path:
-            if directory not in curr.children:
-                curr.children[directory] = TrieNode()
-
-            curr = curr.children[directory]
-        
-        return curr.content
+        return self.files[filePath]
         
 
 
