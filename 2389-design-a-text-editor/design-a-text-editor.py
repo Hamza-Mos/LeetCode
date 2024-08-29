@@ -1,7 +1,4 @@
 class TextEditor:
-    # use 2 queues
-    # one queue for all characters to the left of the cursor
-    # other queue for all characters to the right of the cursor
 
     def __init__(self):
         self.left = deque()
@@ -9,49 +6,44 @@ class TextEditor:
         
 
     def addText(self, text: str) -> None:
-        # text will always be to the left of the current cursor
+        # add text to left deque
         for char in text:
             self.left.append(char)
         
 
     def deleteText(self, k: int) -> int:
-        # delete from left of cursor
         num_deleted = 0
-        while num_deleted < k and self.left:
-            self.left.pop() # append from end of left queue
+        while k and self.left:
+            self.left.pop()
+            k -= 1
             num_deleted += 1
-
-        return num_deleted
         
+        return num_deleted
 
     def cursorLeft(self, k: int) -> str:
-        # move characters from left queue to right queue
+        # move from left to right
         while k and self.left:
-            char = self.left.pop() # pop from end of left queue
-            self.right.appendleft(char) # append to front of right queue
             k -= 1
+            char = self.left.pop()
+            self.right.appendleft(char)
 
-        # return min(10, len) characters in the left queue
-        left_index = len(self.left) - min(10, len(self.left))
+        starting_index = max(0, len(self.left) - 10)
+        remaining_chars = [self.left[index] for index in range(starting_index, len(self.left))]
 
-        vals = [self.left[i] for i in range(left_index, len(self.left))]
-
-        return "".join(vals)
+        return "".join(remaining_chars)
         
 
     def cursorRight(self, k: int) -> str:
-        # move characters from right queue to left queue
+        # move from right to left
         while k and self.right:
-            char = self.right.popleft() # pop from front of right queue
-            self.left.append(char) # append to end of left queue
             k -= 1
+            char = self.right.popleft()
+            self.left.append(char)
 
-        # return min(10, len) characters in the left queue
-        left_index = len(self.left) - min(10, len(self.left))
+        starting_index = max(0, len(self.left) - 10)
+        remaining_chars = [self.left[index] for index in range(starting_index, len(self.left))]
 
-        vals = [self.left[i] for i in range(left_index, len(self.left))]
-
-        return "".join(vals)
+        return "".join(remaining_chars)
         
 
 
