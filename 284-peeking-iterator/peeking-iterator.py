@@ -42,7 +42,7 @@ class PeekingIterator:
         Returns the next element in the iteration without advancing the iterator.
         :rtype: int
         """
-        if self.iterator.hasNext():
+        if not self.next_list and self.iterator.hasNext():
             self.next_list.append(self.iterator.next())
         return self.next_list[0]
         
