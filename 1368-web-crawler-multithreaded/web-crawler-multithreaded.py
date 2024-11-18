@@ -21,6 +21,11 @@ all sharing the same memory space but executing independently. This allows a pro
 multiple operations concurrently, making it more efficient, especially in tasks that involve waiting 
 (e.g., I/O operations like HTTP requests).
 
+A task is an abstraction for a unit of work. In many programming frameworks, tasks are used to represent 
+operations that can be scheduled to run asynchronously or concurrently. A task can be executed by a thread, but 
+it doesn’t necessarily map directly to a thread. For example, in an event-driven model like asyncio, many 
+tasks might be running on the same thread, switching between tasks as they wait for I/O operations to complete.
+
 ThreadPoolExecutor is a class in Python's concurrent.futures module that allows for managing a 
 pool of threads. It is used to efficiently manage multiple threads by reusing a fixed number of threads 
 to execute tasks. Instead of creating a new thread for each task (which can be costly in terms of resources), 
